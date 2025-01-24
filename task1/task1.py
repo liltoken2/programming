@@ -3,7 +3,6 @@ depth = 0
 with open('in.txt','r') as f :
     for line in f:
         line = line.strip().replace('"','').replace('{',' {').replace(':',': ').replace('}',' } ').replace(',',' , ').split(' ')
-        #print(line)
         for tag in line:
             if tag == '}':
                 depth -= 1
