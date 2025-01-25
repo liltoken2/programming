@@ -1,4 +1,5 @@
 import struct
+
 def infr(x):
     int_part = ''
     frac_part = ''
@@ -12,9 +13,10 @@ def infr(x):
         if fl :
             frac_part += i
     return int_part , frac_part
-    
+
+
 def convert_to_oct(x,func):
-    int_part,frac_part = func(x)
+    int_part, frac_part = func(x)
     x = 0
     for i in range(1,len(frac_part)+1):
         x += (int(frac_part[i-1],16))*16**(-i)
@@ -38,59 +40,31 @@ def convert_to_oct(x,func):
 
 point_counter = 0
 word_quantity =[]
-with open('in.txt','r') as inf:
-    with open('out.txt','w') as out:
-        word_counter = 0
-        for line in inf :
-            line = line.strip().split(" ")
-            
-            for el in line :
-                num = ''
-                try:
-                    num = convert_to_oct(el,infr)
-                    line[line.index(el)] = num
-                except Exception:
-                    if el == '.' :
-                        point_counter += 1
-                        word_quantity.append(word_counter)
-                        word_counter = 0
-                    else :
-                        word_counter += 1
-            for i in range(len(line)) :
-                if i == len(line)-1:
-                    out.write('{}\n'.format(line[i]))
-                else:
-                    out.write('{} '.format(line[i]))
+with open('in.txt','r') as inf, open('out.txt','w') as out:
+    word_counter = 0
+    for line in inf :
+        line = line.strip().split(" ")
+
+        for el in line :
+            num = ''
+            try:
+                num = convert_to_oct(el,infr)
+                line[line.index(el)] = num
+            except Exception:
+                if el == '.' :
+                    point_counter += 1
+                    word_quantity.append(word_counter)
+                    word_counter = 0
+                else :
+                    word_counter += 1
+        for i in range(len(line)) :
+            if i == len(line)-1:
+                out.write('{}\n'.format(line[i]))
+            else:
+                out.write('{} '.format(line[i]))
 with open('out1.bin','wb+') as out1:
     packed1 = struct.pack('i',point_counter)
     out1.write(packed1)
     for el in word_quantity:
         packed2 = struct.pack('i',el)
         out1.write(packed2)
-    
-    # out1.seek(0)
-    # p = struct.unpack("i", out1.read(4))
-    # print(p[0])
-    # results = []
-    # for _ in range(len(word_quantity)):
-    #     value = struct.unpack("i", out1.read(4))[0]
-    #     results.append(value)
-
-    # print(f"word_quantity: {results}")
-
-
-
-                
-
-
-                
-
-
-            
-
-
-
-    
-
-
-    
